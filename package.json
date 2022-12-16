@@ -1,0 +1,28 @@
+{
+  "name": "express-temp-links",
+  "version": "0.1.9",
+  "description": "An express module to use temporary routes easily",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angy91m/express-temp-links.git"
+  },
+  "keywords": [
+    "express",
+    "temp-links",
+    "temporary",
+    "links",
+    "expiry",
+    "routes",
+    "dynamic"
+  ],
+  "author": "angy91m",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/angy91m/express-temp-links/issues"
+  },
+  "homepage": "https://github.com/angy91m/express-temp-links#readme"
+}
