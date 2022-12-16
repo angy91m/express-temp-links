@@ -38,7 +38,7 @@ app.use( '/:templink', tmpLinks.parser() );
 
 app.get( '/link-generate', ( req, res ) => {
 
-    // This generate a new temporary link, sets client ip as refs parameter and return the new link string
+    // This generate a new temporary link with 'GET' method, sets client ip as refs parameter and return the new link string
     const link = tmpLinks.get( { refs: req.ip } );
 
     // This sends link to the client
