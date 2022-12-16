@@ -160,9 +160,10 @@ const tmpLinks = new TempLinks( { timeOut: 10, callback: tmpMiddleware } );
 // This instanciates a new set of links that will expire in 5 minutes (by default), it will call 'imgMiddleware' function and links can be accessed many times
 const imageLinks = new TempLinks( { oneTime: false, callback: imgMiddleware } );
 
-// This logs any generated links for 'tmpLinks' instance
-tmpLinks.on( 'added', link => {
-    console.log( link );
+// This logs any generated links by 'tmpLinks' instance
+tmpLinks.on( 'added', ( lnk, obj ) => {
+    console.log( lnk );
+    console.log( obj.export() );
 } );
 
 // These add the instances to the selected paths (in this example: '/' and '/image/'). You can change parameter name when you instanciate a new links set using 'paramName' option.

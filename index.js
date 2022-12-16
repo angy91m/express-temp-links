@@ -14,6 +14,7 @@ class TempLinks extends EventEmitter {
      * @param {string}   option.paramName  - The parameter name in express query routing (Default: 'templink')
      */
     constructor( options = {} ) {
+        super();
         this.timeOut = typeof options.timeOut === 'number' ? options.timeOut * 1000 : 300000;
         this.oneTime = true;
         if ( typeof options.oneTime !== 'undefined' ) {
@@ -32,7 +33,6 @@ class TempLinks extends EventEmitter {
                 }
             }
         }, typeof options.inteval === 'number' ? options.inteval : 1000 );
-        super();
     }
     /**
      * @param {Object} links - A list of links that was exported previously
@@ -40,33 +40,37 @@ class TempLinks extends EventEmitter {
     */
     import( links, callback ) {
         for ( const link in links ) {
-            this.links[link] = {
-                expiration: new Date( links[link].expiration ),
-                oneTime: links[link].oneTime,
-                method: links[link].method,
-                refs: links[link].refs,
-                redirect: links[link].redirect,
+            const lnk = links[link];
+            this.links[link] = {};
+            const thisLink = this.links[link];
+            thisLink = {
+                expiration: new Date( lnk.expiration ),
+                oneTime: lnk.oneTime,
+                method: lnk.method,
+                refs: lnk.refs,
+                redirect: lnk.redirect,
                 callback,
                 delete: () => {
                     delete this.links[link];
-                }
+                },
+                export: () => ({
+                    expiration: thisLink.expiration.toISOString(),
+                    oneTime: thisLink.oneTime,
+                    method: thisLink.method,
+                    refs: thisLink.refs,
+                    redirect: thisLink.redirect
+                })
             }
-            if ( !this.links[link].redirect && !this.links[link].callback ) {
-                this.links[link].redirect = this.redirect;
-                this.links[link].callback = this.callback;
+            if ( !thisLink.redirect && !thisLink.callback ) {
+                thisLink.redirect = this.redirect;
+                thisLink.callback = this.callback;
             }
         }
     }
     export() {
         const links = {};
         for ( const link in this.links ) {
-            links[link] = {
-                expiration: this.links[link].expiration.toISOString(),
-                oneTime: this.links[link].oneTime,
-                method: this.links[link].method,
-                refs: this.links[link].refs,
-                redirect: this.links[link].redirect
-            };
+            links[link] = this.links[link].export();
         }
         return links;
     }
@@ -127,14 +131,21 @@ class TempLinks extends EventEmitter {
             callback: typeof callback !== 'undefined' ? callback : this.callback,
             delete: () => {
                 delete this.links[link];
-            }
+            },
+            export: () => ({
+                expiration: linkObj.expiration.toISOString(),
+                oneTime: linkObj.oneTime,
+                method: linkObj.method,
+                refs: linkObj.refs,
+                redirect: linkObj.redirect
+            })
         };
         if ( !linkObj.redirect && !linkObj.callback ) {
             linkObj.redirect = this.redirect;
             linkObj.callback = this.callback;
         }
         this.links[link] = linkObj;
-        this.emit( 'added', linkObj );
+        this.emit( 'added', link, linkObj );
         return link;
     }
     /**

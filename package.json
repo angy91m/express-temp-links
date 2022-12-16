@@ -3,6 +3,7 @@
   "version": "0.1.10",
   "description": "An express module to use temporary routes easily",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

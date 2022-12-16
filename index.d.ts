@@ -28,14 +28,14 @@ declare class TempLinks {
     redirect: string;
     callback: Function;
     paramName: any;
-    links: {};
+    links: Object;
     /**
      * @param {Object} links - A list of links that was exported previously
      * @param {Function} callback - A middleware callback you want to associate to imported links
     */
     import(links: Object, callback?: Function): void;
     export(): Object;
-    parser(): (req: Object, res: Object, next: Function) => Function;
+    parser(): (req?: Object, res?: Object, next?: Function) => Function;
     /**
      *
      * @param {Object}      options             - Options object
