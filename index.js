@@ -109,7 +109,7 @@ class TempLinks {
      * @param {Function}    options.callback    - A middleware callback you want to launch when the link is accessed if it's setted
      */
     add( options ) {
-        const { redirect, callback, refs, timeOut, oneTime } = options;
+        const { timeOut, oneTime, method, refs, redirect, callback } = options;
         let link = crypto.randomBytes( 32 ).toString( 'hex' );
         while ( typeof this.links[link] !== 'undefined' ) {
             link = crypto.randomBytes( 32 ).toString( 'hex' );
