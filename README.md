@@ -18,7 +18,7 @@ const TempLinks = require( 'express-temp-links' );
 const app = express();
 
 
-// This is an example middleware that checks if client ip that requested a templink is the same that generated it
+// This is an example middleware that checks if the client ip that requested a templink is the same that generated it
 const myMiddleware = ( req, res ) => {
 
     // req.templinks will be defined in temporary link routes
@@ -128,7 +128,7 @@ const TempLinks = require( 'express-temp-links' );
 const app = express();
 
 
-// This is an example middleware that checks if client ip that requested a templink is the same that generated it
+// This is an example middleware that checks if the client ip that requested a templink is the same that generated it
 const tmpMiddleware = ( req, res ) => {
 
     // req.templinks will be defined in temporary link routes
@@ -139,6 +139,7 @@ const tmpMiddleware = ( req, res ) => {
     }
 };
 
+// This is another example middleware for another links set
 const imgMiddleware = ( req, res, next ) => {
 
     // Any action
