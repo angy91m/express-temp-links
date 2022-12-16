@@ -33,13 +33,15 @@ const myMiddleware = ( req, res ) => {
 // This instanciates a new set of links that will expire in 10 seconds and call 'myMiddleware' function if a temporary link is requested
 const tmpLinks = new TempLinks( { timeOut: 10, callback: myMiddleware } );
 
+// This adds the instance to the selected path (in this example: '/'). You can change parameter name when you instanciate a new links set using 'paramName' option.
 app.use( '/:templink', tmpLinks.parser() );
 
 app.get( '/link-generate', ( req, res ) => {
 
-    // This generate a new temporary link, sets a refs parameter and return the new link string
+    // This generate a new temporary link, sets client ip as refs parameter and return the new link string
     const link = tmpLinks.get( { refs: req.ip } );
 
+    // This sends link to the client
     res.send( `<a href="http://localhost:3000/${link}">http://localhost:3000/${link}</a>` );
 } );
 
@@ -152,22 +154,25 @@ const imgMiddleware = ( req, res, next ) => {
 };
 
 
-// This instanciates a new set of links that will expire in 10 seconds and call 'tmpMiddleware' function if a temporary link is requested
+// This instanciates a new set of links that will expire in 10 seconds and it will call 'tmpMiddleware' function if a temporary link is requested
 const tmpLinks = new TempLinks( { timeOut: 10, callback: tmpMiddleware } );
 
-// This instanciates a new set of links that will expire in 5 minutes (by default) and they can be accessed many times
+// This instanciates a new set of links that will expire in 5 minutes (by default), it will call 'imgMiddleware' function and links can be accessed many times
 const imageLinks = new TempLinks( { oneTime: false, callback: imgMiddleware } );
 
-// This logs any generated links for this instance
+// This logs any generated links for 'tmpLinks' instance
 tmpLinks.on( 'added', link => {
     console.log( link );
 } );
 
+// These add the instances to the selected paths (in this example: '/' and '/image/'). You can change parameter name when you instanciate a new links set using 'paramName' option.
 app.use( '/:templink', tmpLinks.parser() );
-
 app.use( '/image/:templink', imageLinks.parser(), ( req, res, next ) => {
     if ( req.templink ) {
-        // Any action
+    // If this req is an active templink...
+
+        // It sends 'Hello world'
+        res.send( req.templink.refs.join(' ') );
     } else {
         next();
     }
@@ -176,12 +181,13 @@ app.use( '/image/:templink', imageLinks.parser(), ( req, res, next ) => {
 
 app.get( '/link-generate', ( req, res ) => {
 
-    // This generate a new temporary link, sets a refs parameter and return the new link string
+    // This generate a new temporary link, sets client ip as refs parameter and return the new link string
     const link = tmpLinks.get( { refs: req.ip } );
 
     // This generate a new temporary link, sets a refs parameter and return the new link string
-    const imgLink = imageLinks.get( { refs: 'example' } );
+    const imgLink = imageLinks.get( { refs: ['Hello', 'world'] } );
 
+    // These send links to the client
     res.send( `<a href="http://localhost:3000/${link}">http://localhost:3000/${link}</a>` );
     res.send( `<a href="http://localhost:3000/${imgLink}">http://localhost:3000/${imgLink}</a>` );
 } );
