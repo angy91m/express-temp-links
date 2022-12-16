@@ -41,10 +41,12 @@ class TempLinks extends EventEmitter {
     import( links, callback ) {
         for ( const link in links ) {
             const lnk = links[link];
+            const expiration = new Date( lnk.expiration );
+            if ( Date.now() > expiration.getTime() ) continue;
             this.links[link] = {};
             const thisLink = this.links[link];
             thisLink = {
-                expiration: new Date( lnk.expiration ),
+                expiration,
                 oneTime: lnk.oneTime,
                 method: lnk.method,
                 refs: lnk.refs,
