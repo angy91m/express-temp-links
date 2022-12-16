@@ -1,6 +1,6 @@
 {
   "name": "express-temp-links",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "An express module to use temporary routes easily",
   "main": "index.js",
   "scripts": {

@@ -64,6 +64,9 @@ const tmpLinks = new TempLinks( options: Object );
 * `callback` - Default middleware callback that will be launched when links are accessed if it's setted
 * `paramName` - The parameter name in express query routing (Default: 'templink')
 
+#### Return
+A new `TempLinks` instance that extends `EventEmitter` class, emits an `added` event when a link is created and passes that
+
 ### `TempLinks.add`
 ```javascript
 tmpLinks.add( options: Object );

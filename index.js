@@ -1,5 +1,6 @@
 const crypto = require( 'node:crypto' );
-class TempLinks {
+const { EventEmitter } = require( 'node:events' );
+class TempLinks extends EventEmitter {
     /**
      * 
      * @param {Object}   options           - Options object
@@ -31,6 +32,7 @@ class TempLinks {
                 }
             }
         }, typeof options.inteval === 'number' ? options.inteval : 1000 );
+        super();
     }
     /**
      * @param {Object} links - A list of links that was exported previously
@@ -132,6 +134,7 @@ class TempLinks {
             linkObj.callback = this.callback;
         }
         this.links[link] = linkObj;
+        this.emit( 'added', linkObj );
         return link;
     }
     /**
