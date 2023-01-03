@@ -138,6 +138,7 @@ class TempLinks extends EventEmitter {
             redirect: typeof redirect !== 'undefined' ? redirect : this.redirect,
             callback: typeof callback !== 'undefined' ? callback : this.callback,
             delete: () => {
+                this.emit( 'deleted', link, linkObj );
                 delete this.links[link];
             },
             export: () => ({

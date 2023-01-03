@@ -169,6 +169,10 @@ tmpLinks.on( 'added', ( lnk, obj ) => {
     console.log( obj.export() );
 } );
 
+tmpLinks.on( 'deleted', ( lnk, obj ) => {
+    // Other actions...
+} );
+
 // These add the instances to the selected paths (in this example: '/' and '/image/'). You can change parameter name when you instanciate a new links set using 'paramName' option.
 app.use( '/:templink', tmpLinks.parser() );
 app.use( '/image/:templink', imageLinks.parser(), ( req, res, next ) => {
