@@ -88,7 +88,8 @@ class TempLinks extends EventEmitter {
                 if ( link.method && link.method !== req.method ) return next();
                 req.templink = {
                     instance: this,
-                    refs: link.refs
+                    refs: link.refs,
+                    oneTime: link.oneTime
                 }
                 const { redirect, callback } = link;
                 if ( link.oneTime ) {
