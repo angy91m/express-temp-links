@@ -147,6 +147,9 @@ const tmpMiddleware = ( req, res ) => {
 // This is another example middleware for another links set
 const imgMiddleware = ( req, res, next ) => {
 
+    // It deletes non-oneTime links
+    req.templink.delete();
+    
     // Any action
     
     // It launches next middleware function in the same route of the parser

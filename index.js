@@ -93,6 +93,11 @@ class TempLinks extends EventEmitter {
                 const { redirect, callback } = link;
                 if ( link.oneTime ) {
                     link.delete();
+                    req.templink.delete = () => {};
+                } else {
+                    req.templink.delete = () => {
+                        link.delete();
+                    };
                 }
                 if ( redirect ) {
                     res.redirect( redirect );
